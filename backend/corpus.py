@@ -1,6 +1,6 @@
 import os
 
-bbc_path = os.path.join("..", "data", "bbc")
+bbc_path = os.path.join(".", "bbc")
 
 corpus = []
 
@@ -11,5 +11,3 @@ for category in os.listdir(bbc_path):
             file_path = os.path.join(root, file)
             with open(file_path, "r") as reader:
                 corpus.append(reader.read())
-
-# print(corpus[:5])
