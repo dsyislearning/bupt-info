@@ -1,1 +1,9 @@
+# environment
+.venv/
+__pycache__/
+
+# data
+data/bbc/
+
+# miscellaneous
 helloworld/
