@@ -5,7 +5,7 @@ FROM python:3.12-slim
 WORKDIR /root/backend
 
 # Copy the current directory contents into the WORKDIR
-ADD . /root/backend/
+ADD ./src /root/backend/
 
 # Install dependencies
 RUN pip install -r requirements.txt
@@ -13,8 +13,8 @@ RUN pip install -r requirements.txt
 # Make data
 RUN python make_data.py
 
-# Run the application
-CMD ["flask", "run"]
-
 # Flask runs on port 5000
 EXPOSE 5000
+
+# Run the application
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
