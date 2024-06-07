@@ -28,5 +28,5 @@ Open your browser and visit `http://localhost:3000`.
 - [x] Inverted Index
 - [x] BM25 Scoring and Ranking
 - [x] Personalized Rating and Ranking
-- [] Generative Document Retrieval
-- [] Information Extraction
+- [ ] Generative Document Retrieval
+- [ ] Information Extraction
