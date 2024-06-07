@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from logic import search
 
 app = Flask(__name__)
+CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 
 
 @app.route("/", methods=["GET"])
