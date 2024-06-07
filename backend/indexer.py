@@ -10,8 +10,3 @@ for i, doc in enumerate(corpus):
             inverted_index[term].append(i)
 
 save_path = "inverted_index.json"
-
-# import json
-
-# with open(save_path, "w") as writer:
-#     json.dump(inverted_index, writer)
