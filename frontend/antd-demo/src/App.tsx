@@ -23,6 +23,7 @@ function App() {
     {}
   );
   const [hasSearched, setHasSearched] = useState<boolean>(false);
+  const [ratings, setRatings] = useState<number[]>([]);
 
   const onSearch: SearchProps["onSearch"] = async (value, _e, info) => {
     console.log(info?.source, value);
@@ -34,7 +35,22 @@ function App() {
       });
       setList(response.data);
       setNumPassages(response.data.length);
-      console.log(response.data);
+
+      console.log("onSearch: ", response.data);
+
+      setRatings(new Array(response.data.length).fill(0));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onRate = async (index: number, rating: number) => {
+    try {
+      const response = await axios.post(`http://localhost:5000/rate`, {
+        index: index,
+        rating: rating,
+      });
+      console.log("onRate: ", response.data);
     } catch (error) {
       console.error(error);
     }
@@ -55,7 +71,7 @@ function App() {
           />
           {hasSearched && (
             <List
-              style={{ backgroundColor: "white", alignItems: "flex-start"}}
+              style={{ backgroundColor: "white", alignItems: "flex-start" }}
               pagination={{ position: "bottom", align: "center" }}
               header={<div>{num_passages} passages found</div>}
               // footer={<div>Footer</div>}
@@ -63,7 +79,7 @@ function App() {
               dataSource={list}
               renderItem={(item, index) => (
                 <Card
-                  style={{textAlign: "left", width: "100%"}}
+                  style={{ textAlign: "left", width: "100%" }}
                   title={
                     <Typography.Title level={4} style={{ textAlign: "left" }}>
                       {item.title}
@@ -89,20 +105,23 @@ function App() {
                     direction="vertical"
                     style={{ alignItems: "flex-start" }}
                   >
-                    <Space style={{alignItems: "flex-start"}}>
+                    <Space style={{ alignItems: "flex-start" }}>
                       <Tag
                         style={{ textAlign: "center", alignContent: "left" }}
                       >
-                        Score: {item.score}
+                        BM25 Score: {item.score}
                       </Tag>
-                      <Rate allowClear={true} onChange={(rate: number) => {
-                        console.log("rate", rate, "for doc", index);
-
-                        axios.post(`http://localhost:5000/rate`, {
-                          doc_id: index,
-                          rating: rate
-                        })
-                      }}/>
+                      <Rate
+                        value={ratings[index]}
+                        allowClear={true}
+                        onChange={(rating: number) => {
+                          console.log("rate", rating, "for doc", index);
+                          onRate(index, rating);
+                          const newRatings = [...ratings];
+                          newRatings[index] = rating;
+                          setRatings(newRatings);
+                        }}
+                      />
                     </Space>
 
                     {!showContext[index] && (
@@ -112,7 +131,7 @@ function App() {
                     )}
 
                     {showContext[index] &&
-                      item.context.map((paragraph, paragraph_id) => (
+                      item.context.map((paragraph) => (
                         <Typography.Paragraph style={{ textAlign: "left" }}>
                           {paragraph}
                         </Typography.Paragraph>
