@@ -1,21 +1,15 @@
-# environment
-.venv/
-__pycache__/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# backend
-bbc/
-
-# frontend
 # dependencies
-node_modules/
-.pnp/
+/node_modules
+/.pnp
 .pnp.js
 
 # testing
-coverage/
+/coverage
 
 # production
-build/
+/build
 
 # misc
 .DS_Store
@@ -26,7 +20,4 @@ build/
 
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*node_modules/
-
-# miscellaneous
-helloworld/
+yarn-error.log*
