@@ -16,23 +16,22 @@ def search(query: str, cached_search_result: Dict[str, List[str]]) -> List[Dict[
     tokenized_query = query.split(" ")
 
     # Get the document ids that contain all the terms in the query
-    docids = set()
-    for term in tokenized_query:
-        if term in inverted_index:
-            docids.update(set(inverted_index[term]))
+    docids_for_all_terms = [set(inverted_index[term]) for term in tokenized_query if term in inverted_index]
+    union_docids = set.intersection(*docids_for_all_terms) if docids_for_all_terms else set()
 
-    filtered_corpus = [corpus[i] for i in docids]
+    # Filter the corpus based on the document ids
+    filtered_corpus = [corpus[i] for i in union_docids]
 
     if not filtered_corpus:
         return []
 
     # Rank the documents based on the BM25 score
     bm25 = BM25Okapi([doc.split(" ") for doc in filtered_corpus])
-    # scores = bm25.get_scores(tokenized_query)
 
-    # Return the top 5 documents
+    # Return all the documents and their scores
     docs, scores = bm25.get_top_n(tokenized_query, filtered_corpus, n=-1)
 
+    # Construct the result in the required format
     result = []
     for doc, score in zip(docs, scores):
         paragraphs = doc.split("\n\n")

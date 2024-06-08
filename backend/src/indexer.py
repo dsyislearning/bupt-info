@@ -8,5 +8,3 @@ for i, doc in enumerate(corpus):
             inverted_index[term] = []
         if i not in inverted_index[term]:
             inverted_index[term].append(i)
-
-save_path = "inverted_index.json"
