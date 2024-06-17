@@ -1,6 +1,7 @@
 from indexer import inverted_index, corpus
 from bm25 import BM25Okapi
 from typing import List, Dict
+from ner import nlp
 
 
 def search(query: str, cached_search_result: Dict[str, List[str]]) -> List[Dict[str, str]]:
@@ -61,3 +62,7 @@ def update_scores(index: int, rating: int, cached_search_result: Dict[str, List[
     if rating in [1, 2, 4, 5]:
         original_score = cached_search_result["result"][index]["score"]
         cached_search_result["result"][index]["score"] = original_score * (1 + (rating - 3) * 0.05) 
+
+
+def extract(text: str) -> Dict[str, List[str]]:
+    return nlp(text)

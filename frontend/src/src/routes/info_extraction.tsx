@@ -1,4 +1,5 @@
 import {
+  Card,
   Empty,
   Layout,
   Input,
@@ -54,16 +55,27 @@ function Extraction() {
   const [entitiesMap, setEntitiesMap] = useState<Record<string, string[]>>({});
   const [entityLabels, setEntityLabels] = useState<string[]>([]);
   const [showEntity, setShowEntity] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onExtract = async () => {
+    setIsLoading(true);
     try {
+      if (inputText === "") {
+        setEntitiesMap({});
+        setEntityLabels([]);
+        setExtracted(false);
+        setIsLoading(false);
+        return;
+      }
       const response = await axios.post(`http://localhost:5000/extract`, {
         text: inputText,
       });
       console.log("onExtract: ", response.data);
       setEntitiesMap(response.data);
       setEntityLabels(Object.keys(response.data));
+      setShowEntity(Object.keys(response.data)[0]);
       setExtracted(true);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -85,24 +97,26 @@ function Extraction() {
             onChange={(e) => setInputText(e.target.value)}
           />
           <div>
-            <Button type="primary" onClick={onExtract}>
+            <Button type="primary" onClick={onExtract} loading={isLoading}>
               Extract
             </Button>
           </div>
           {extracted &&
             (Object.keys(entitiesMap).length === 0 ? (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            ) : (
               <Flex style={contentFlexStyle} vertical>
                 <h2>Entities</h2>
                 <Segmented
                   options={entityLabels}
                   onChange={setShowEntity as SegmentedProps["onChange"]}
                 />
-                <div>
-                  <Tag>{showEntity}</Tag>
-                </div>
+                <Card>
+                  {entitiesMap[showEntity].map((entity, index) => (
+                    <Tag key={index}>{entity.toString()}</Tag>
+                  ))}
+                </Card>
               </Flex>
-            ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             ))}
         </Flex>
       </Content>

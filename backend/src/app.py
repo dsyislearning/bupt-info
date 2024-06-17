@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from logic import search, update_scores
+from logic import search, update_scores, extract
 
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
@@ -40,3 +40,11 @@ def rate_controller():
     update_scores(index, rating, cached_search_result)
 
     return jsonify({"message": "success"})
+
+
+@app.route("/extract", methods=["POST"])
+def extract_controller():
+    data = request.get_json()
+    text = data["text"]
+
+    return jsonify(extract(text))
