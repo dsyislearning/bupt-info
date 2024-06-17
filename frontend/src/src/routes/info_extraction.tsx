@@ -5,6 +5,7 @@ import {
   Input,
   Flex,
   Button,
+  Rate,
   Segmented,
   SegmentedProps,
   Tag,
@@ -87,7 +88,7 @@ function Extraction() {
         <Link to="/">Back to Search</Link>
       </Header>
       <Content style={contentStyle}>
-        <Flex style={contentFlexStyle} vertical>
+        <Flex style={{ textAlign: "center", alignItems: "center" }} vertical>
           <h1>Information Extraction</h1>
           <Input.TextArea
             placeholder="input text"
@@ -105,8 +106,9 @@ function Extraction() {
             (Object.keys(entitiesMap).length === 0 ? (
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             ) : (
-              <Flex style={contentFlexStyle} vertical>
+              <Flex vertical>
                 <h2>Entities</h2>
+                <Rate></Rate>
                 <Segmented
                   options={entityLabels}
                   onChange={setShowEntity as SegmentedProps["onChange"]}
