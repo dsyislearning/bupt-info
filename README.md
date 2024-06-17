@@ -29,5 +29,4 @@ Open your browser and visit `http://localhost:3000`.
 - [x] BM25 Scoring and Ranking
 - [x] Personalized Rating and Ranking
 - [ ] Generative Document Retrieval
-- [ ] Information Extraction
 - [x] Named Entity Recognition
