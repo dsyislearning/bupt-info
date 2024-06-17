@@ -40,14 +40,8 @@ const layoutStyle = {
   overflow: "hidden",
   width: "100%",
   maxWidth: "100%",
-  height: "100%vh",
-  maxHeight: "100vh",
-};
-
-const contentFlexStyle = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  height: "100%",
+  maxHeight: "100%",
 };
 
 function Extraction() {
