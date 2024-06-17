@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { Input, Space, List, Button, Card, Rate, Tag, Typography } from "antd";
 import type { SearchProps } from "antd/es/input";
+import { Link } from "react-router-dom";
 
 const { Search } = Input;
 
@@ -146,6 +147,8 @@ function Retrieval() {
         {!hasSearched && (
           <p>
             Enter some text in the search box and press Search button to search.
+            <br />
+            Or you can use our <Link to={"/extraction"}>information extraction</Link> tool.
           </p>
         )}
       </header>
